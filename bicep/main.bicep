@@ -13,7 +13,7 @@ var defaultTags = {
 }
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: '${applicationName}-rg-${instanceNumber}'
+  name: '${applicationName}-rg-${environment}-${instanceNumber}'
   location: location
   tags: defaultTags
 }
