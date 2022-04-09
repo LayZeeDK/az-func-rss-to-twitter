@@ -2,7 +2,7 @@ targetScope = 'subscription'
 
 // If an environment is set up (dev, test, prod...), it is used in the application name
 param environment string = 'dev'
-param applicationName string = 'lz-rsstwitter'
+param applicationName string = 'lzrsstwitter'
 param location string = 'westeurope'
 var instanceNumber = '001'
 
@@ -13,7 +13,7 @@ var defaultTags = {
 }
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: '${applicationName}-rg-${instanceNumber}'
+  name: '${applicationName}-rg-${environment}-${instanceNumber}'
   location: location
   tags: defaultTags
 }

@@ -1,0 +1,28 @@
+name: GitOps teardown
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+on:
+  delete:
+    branches:
+      - "env-*"
+
+env:
+  application-name: lzrsstwitter
+  instance-number: "001"
+
+jobs:
+  tear-down-infrastructure:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Determine resource group name
+        id: resource-group-name
+        run: echo "::set-output name=resource-group::${{ env.application-name }}-rg-$(echo ${{ github.ref }} | sed -r 's/^env-//')-${{ env.instance-number }}"
+      - name: Check if resource group exists
+        id: resource-group-exists
+        run: echo "::set-output name=exists::$(echo az group exists --name ${{ steps.resource-group-name.outputs.resource-group }})"
+      - name: Delete Azure resources
+        if: steps.resource-group-exists.outputs.exists == "true"
+        run: az group delete --name ${{ steps.resource-group-name.outputs.resource-group }} --yes
