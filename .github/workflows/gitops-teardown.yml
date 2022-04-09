@@ -17,6 +17,7 @@ jobs:
   tear-down-infrastructure:
     runs-on: ubuntu-20.04
     steps:
+      # TODO: github.ref is actually "refs/heads/main". Find "env-dev" and use that instead.
       - name: Determine resource group name
         id: resource-group-name
         run: echo "::set-output name=resource-group::${{ env.application-name }}-rg-$(echo ${{ github.ref }} | sed -r 's/^env-//')-${{ env.instance-number }}"
