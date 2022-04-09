@@ -24,5 +24,5 @@ jobs:
         id: resource-group-exists
         run: echo "::set-output name=exists::$(echo az group exists --name ${{ steps.resource-group-name.outputs.resource-group }})"
       - name: Delete Azure resources
-        if: steps.resource-group-exists.outputs.exists == "true"
+        if: ${{ steps.resource-group-exists.outputs.exists == "true" }}
         run: az group delete --name ${{ steps.resource-group-name.outputs.resource-group }} --yes
