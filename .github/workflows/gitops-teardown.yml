@@ -19,7 +19,7 @@ jobs:
       - name: Determine resource group name
         id: resource-group-name
         run: echo "::set-output name=resource-group::${{ env.application-name }}-rg-$(echo ${{ github.event.ref }} | sed -r 's/^env-//')-${{ env.instance-number }}"
-      - run: azure/login@v1
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Check if resource group exists
