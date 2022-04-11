@@ -25,10 +25,7 @@ jobs:
       - name: Debug exists
         env:
           EXISTS: ${{ steps.resource-group-exists.outputs.exists }}
-          EXISTS_IS_TRUE: ${{ steps.resource-group-exists.outputs.exists == 'true' }}
-        run: |
-          echo "EXISTS: $EXISTS"
-          echo "EXISTS_IS_TRUE: $EXISTS_IS_TRUE"
+        run: echo "EXISTS: $EXISTS"
       - name: Delete Azure resources
         if: ${{ steps.resource-group-exists.outputs.exists == 'true' }}
         run: az group delete --name ${{ steps.resource-group-name.outputs.resource-group }} --yes
