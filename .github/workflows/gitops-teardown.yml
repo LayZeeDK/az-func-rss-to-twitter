@@ -21,7 +21,7 @@ jobs:
         run: echo "::set-output name=resource-group::${{ env.application-name }}-rg-$(echo ${{ github.event.ref }} | sed -r 's/^env-//')-${{ env.instance-number }}"
       - name: Check if resource group exists
         id: resource-group-exists
-        run: echo "::set-output name=exists::$(echo az group exists --name ${{ steps.resource-group-name.outputs.resource-group }})"
+        run: echo "::set-output name=exists::$(az group exists --name ${{ steps.resource-group-name.outputs.resource-group }})"
       - name: Debug EXISTS
         env:
           EXISTS: ${{ steps.resource-group-exists.outputs.exists }}
