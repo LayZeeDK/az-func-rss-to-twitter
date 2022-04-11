@@ -1,7 +1,7 @@
 name: GitOps teardown
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.ref }}
   cancel-in-progress: false
 
 on:
@@ -14,21 +14,18 @@ env:
 jobs:
   tear-down-infrastructure:
     if: github.event.ref_type == 'branch' && startsWith(github.event.ref, 'env-')
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - name: Determine resource group name
+      - name: Determine Azure resource group name
         id: resource-group-name
         run: echo "::set-output name=resource-group::${{ env.application-name }}-rg-$(echo ${{ github.event.ref }} | sed -r 's/^env-//')-${{ env.instance-number }}"
-      - uses: azure/login@v1
+      - name: Authenticate Azure CLI
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Check if resource group exists
+      - name: Check whether Azure resource group exists
         id: resource-group-exists
         run: echo "::set-output name=exists::$(az group exists --name ${{ steps.resource-group-name.outputs.resource-group }})"
-      - name: Debug EXISTS
-        env:
-          EXISTS: ${{ steps.resource-group-exists.outputs.exists }}
-        run: "echo $EXISTS"
-      - name: Delete Azure resources
+      - name: Delete Azure resource group
         if: ${{ steps.resource-group-exists.outputs.exists == 'true' }}
         run: az group delete --name ${{ steps.resource-group-name.outputs.resource-group }} --yes
