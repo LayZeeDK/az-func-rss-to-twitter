@@ -25,7 +25,7 @@ jobs:
       - name: Debug exists
         env:
           EXISTS: ${{ steps.resource-group-exists.outputs.exists }}
-          EXISTS_IS_TRUE: ${{ steps.resource-group-exists.outputs.exists == "true" }}
+          EXISTS_IS_TRUE: ${{ steps.resource-group-exists.outputs.exists == 'true' }}
         run: |
           echo "EXISTS: $EXISTS"
           echo "EXISTS_IS_TRUE: $EXISTS_IS_TRUE"
