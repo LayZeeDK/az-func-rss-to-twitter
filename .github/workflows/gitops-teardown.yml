@@ -22,7 +22,7 @@ jobs:
       - name: Check if resource group exists
         id: resource-group-exists
         run: echo "::set-output name=exists::$(echo az group exists --name ${{ steps.resource-group-name.outputs.resource-group }})"
-      - name: Debug exists
+      - name: Debug EXISTS
         env:
           EXISTS: ${{ steps.resource-group-exists.outputs.exists }}
         run: "echo $EXISTS"
