@@ -14,6 +14,7 @@ env:
 jobs:
   tear-down-infrastructure:
     if: github.event.ref_type == 'branch' && startsWith(github.event.ref, 'env-')
+    name: Tear down infrastructure
     runs-on: ubuntu-latest
     steps:
       - name: Determine Azure resource group name

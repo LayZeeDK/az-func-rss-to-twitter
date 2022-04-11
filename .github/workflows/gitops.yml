@@ -7,6 +7,10 @@ name: GitOps
 # for more information about using GitOps with NubesGen.
 ###
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.ref }}
+  cancel-in-progress: false
+
 on:
   push:
     branches:
